@@ -62,9 +62,9 @@ app.post("/", async (req, res) => {
       } else
         return res
           .status(500)
-          .json({ errors: [{ message: "No schema found" }] });
+          .json({ errors: [{ message: "No schema found", response }] });
     } catch (err) {
-      return res.status(500).json({ errors: [{ message: err.message, response }] });
+      return res.status(500).json({ errors: [{ message: err.message }] });
     }
   }
 });
