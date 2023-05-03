@@ -28,33 +28,44 @@ app.post("/", async (req, res) => {
 
   res.setHeader("content-type", "application/json");
 
-  if (graphosKey === undefined) res.status(500).json({errors: [{message: "no GraphOS key"}]});
-  else if (graphId === undefined) res.status(500).json({errors: [{message: "no graphId"}]});
-  else if (variant === undefined) res.status(500).json({errors: [{message: "no variant"}]});
-  else if (subgraphName === undefined) res.status(500).json({errors: [{message: "no subgraphName"}]});
+  if (graphosKey === undefined)
+    res.status(500).json({ errors: [{ message: "no GraphOS key" }] });
+  else if (graphId === undefined)
+    res.status(500).json({ errors: [{ message: "no graphId" }] });
+  else if (variant === undefined)
+    res.status(500).json({ errors: [{ message: "no variant" }] });
+  else if (subgraphName === undefined)
+    res.status(500).json({ errors: [{ message: "no subgraphName" }] });
   else {
-    const response = await getGraphSchemasByVariant(
-      graphosKey,
-      `${graphId}@${variant}`,
-      subgraphName
-    );
-    if (response?.data?.variant?.subgraph?.activePartialSchema?.sdl) {
-      const schemaString =
-        response.data.variant.subgraph.activePartialSchema?.sdl;
-      const schema = buildSubgraphSchema({ typeDefs: gql(schemaString) });
-      const schemaWithMocks = addMocksToSchema({
-        schema,
-        preserveResolvers: true,
-      });
+    try {
+      const response = await getGraphSchemasByVariant(
+        graphosKey,
+        `${graphId}@${variant}`,
+        subgraphName
+      );
+      if (response?.data?.variant?.subgraph?.activePartialSchema?.sdl) {
+        const schemaString =
+          response.data.variant.subgraph.activePartialSchema?.sdl;
+        const schema = buildSubgraphSchema({ typeDefs: gql(schemaString) });
+        const schemaWithMocks = addMocksToSchema({
+          schema,
+          preserveResolvers: true,
+        });
 
-      const result = await graphql({
-        schema: schemaWithMocks,
-        source: operation,
-        variableValues,
-      });
+        const result = await graphql({
+          schema: schemaWithMocks,
+          source: operation,
+          variableValues,
+        });
 
-      res.end(JSON.stringify(result, null, 3));
-    } else return res.status(500).json({errors: [{message: "No schema found"}]});
+        res.end(JSON.stringify(result, null, 3));
+      } else
+        return res
+          .status(500)
+          .json({ errors: [{ message: "No schema found" }] });
+    } catch (err) {
+      return res.status(500).json({ errors: [{ message: err.message }] });
+    }
   }
 });
 
