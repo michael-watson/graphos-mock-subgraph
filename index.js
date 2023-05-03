@@ -27,12 +27,15 @@ app.post("/", async (req, res) => {
   const subgraphName = req.header("subgraph-name");
 
   if (
-    graphosKey === undefined ||
-    graphId === undefined ||
-    variant === undefined ||
-    subgraphName === undefined
+    graphosKey === undefined //||
+    // graphId === undefined ||
+    // variant === undefined ||
+    // subgraphName === undefined
   )
-    res.send(null);
+    res.send("no GraphOS key ");
+    else if (graphId === undefined)res.send("no graphId");
+    else if (variant === undefined)res.send("no variant");
+    else if (graphsubgraphNameId === undefined)res.send("no subgraphName");
   else {
     const response = await getGraphSchemasByVariant(
       graphosKey,
