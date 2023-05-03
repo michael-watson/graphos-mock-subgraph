@@ -62,7 +62,7 @@ app.post("/", async (req, res) => {
       } else
         return res
           .status(500)
-          .json({ errors: [{ message: `No schema found\n${JSON.stringify(response)}` }] });
+          .json({ errors: [{ message: `key: ${graphosKey}No schema found\n${JSON.stringify(response)}` }] });
     } catch (err) {
       return res.status(500).json({ errors: [{ message: err.message }] });
     }
