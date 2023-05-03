@@ -51,8 +51,8 @@ app.post("/", async (req, res) => {
         variableValues,
       });
 
-      res.setHeader('Content-Type', 'application/json');
-      res.send(result);
+      res.setHeader('content-type', 'application/json');
+      res.send(JSON.stringify(result));
     } else return res.send('No schema found');
   }
 });
