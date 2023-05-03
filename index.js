@@ -29,7 +29,7 @@ app.post("/", async (req, res) => {
   if (graphosKey === undefined) res.send("no GraphOS key");
   else if (graphId === undefined) res.send("no graphId");
   else if (variant === undefined) res.send("no variant");
-  else if (graphsubgraphNameId === undefined) res.send("no subgraphName");
+  else if (subgraphName === undefined) res.send("no subgraphName");
   else {
     const response = await getGraphSchemasByVariant(
       graphosKey,
@@ -51,7 +51,7 @@ app.post("/", async (req, res) => {
         variableValues,
       });
       res.send(result);
-    } else return res.send(null);
+    } else return res.send('No schema found');
   }
 });
 
