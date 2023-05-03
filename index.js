@@ -26,16 +26,10 @@ app.post("/", async (req, res) => {
   const variant = req.header("variant-name");
   const subgraphName = req.header("subgraph-name");
 
-  if (
-    graphosKey === undefined //||
-    // graphId === undefined ||
-    // variant === undefined ||
-    // subgraphName === undefined
-  )
-    res.send("no GraphOS key ");
-    else if (graphId === undefined)res.send("no graphId");
-    else if (variant === undefined)res.send("no variant");
-    else if (graphsubgraphNameId === undefined)res.send("no subgraphName");
+  if (graphosKey === undefined) res.send("no GraphOS key");
+  else if (graphId === undefined) res.send("no graphId");
+  else if (variant === undefined) res.send("no variant");
+  else if (graphsubgraphNameId === undefined) res.send("no subgraphName");
   else {
     const response = await getGraphSchemasByVariant(
       graphosKey,
@@ -95,7 +89,7 @@ function createLink(apiKey) {
   const headers = {
     "x-api-key": apiKey,
     "apollographql-client-name": "mock-subgraph",
-    "apollographql-client-version": 'beta',
+    "apollographql-client-version": "beta",
   };
 
   return createHttpLink({
