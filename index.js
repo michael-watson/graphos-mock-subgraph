@@ -66,7 +66,7 @@ app.post("/", async (req, res) => {
     } catch (err) {
       return res.status(500).json({ errors: [{ message: err.message }] });
     }
-  }∂
+  }
 });
 
 app.listen(port, () => {
